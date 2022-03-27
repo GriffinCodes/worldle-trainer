@@ -51,24 +51,12 @@ export function Game({
 
   const gameEnded = guesses[guesses.length - 1]?.distance === 0;
 
-  // If enter is pressed after the game is over load a new country
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (gameEnded && e.keyCode == 13) {
-        newCountry();
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [gameEnded, newCountry]);
-
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (country == null || currentGuess == "") {
+      if (country == null) {
         return;
       }
+      e.preventDefault();
       const guessedCountry = countries.find(
         (country) =>
           sanitizeCountryName(
@@ -206,6 +194,7 @@ export function Game({
             <button
               className="rounded font-bold border-2 p-1 uppercase bg-green-600 hover:bg-green-500 active:bg-green-700 text-white w-full"
               onClick={newCountry}
+              autoFocus
             >
               Next
             </button>
