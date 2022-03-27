@@ -44,20 +44,31 @@ export function Game({
 
   const countryInputRef = useRef<HTMLInputElement>(null);
 
-  const [todays, addGuess] = useCountries();
+  const [todays, addGuess, newCountry] = useCountries();
   const { country, guesses, randomAngle, imageScale } = todays;
 
   const [currentGuess, setCurrentGuess] = useState("");
 
-  // TODO make this when you give up
   const gameEnded = guesses[guesses.length - 1]?.distance === 0;
+
+  // If enter is pressed after the game is over load a new country
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (gameEnded && e.keyCode == 13) {
+        newCountry();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [gameEnded, newCountry]);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
-      if (country == null) {
+      e.preventDefault();
+      if (country == null || currentGuess == "") {
         return;
       }
-      e.preventDefault();
       const guessedCountry = countries.find(
         (country) =>
           sanitizeCountryName(
@@ -106,6 +117,22 @@ export function Game({
       setHideImageMode,
     ]
   );
+
+  function handleGiveUp() {
+    const correctGuess = {
+      name: country.name,
+      distance: geolib.getDistance(country, country),
+      direction: geolib.getCompassDirection(
+        country,
+        country,
+        (origin, dest) =>
+          Math.round(geolib.getRhumbLineBearing(origin, dest) / 45) * 45
+      ),
+    };
+
+    addGuess(correctGuess);
+    setCurrentGuess("");
+  }
 
   // TODO add guess for give up that is the current country
 
@@ -176,6 +203,12 @@ export function Game({
       <div className="my-2">
         {gameEnded && country ? (
           <>
+            <button
+              className="rounded font-bold border-2 p-1 uppercase bg-green-600 hover:bg-green-500 active:bg-green-700 text-white w-full"
+              onClick={newCountry}
+            >
+              Next
+            </button>
             <a
               className="underline w-full text-center block mt-4"
               href={`https://www.google.com/maps?q=${getCountryName(
@@ -192,26 +225,36 @@ export function Game({
             </a>
           </>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <>
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-col">
+                <CountryInput
+                  inputRef={countryInputRef}
+                  currentGuess={currentGuess}
+                  setCurrentGuess={setCurrentGuess}
+                />
+                <button
+                  className="rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
+                  type="submit"
+                >
+                  <Twemoji
+                    text="🌍"
+                    options={{ className: "inline-block" }}
+                    className="flex items-center justify-center"
+                  />{" "}
+                  <span className="ml-1">{t("guess")}</span>
+                </button>
+              </div>
+            </form>
             <div className="flex flex-col">
-              <CountryInput
-                inputRef={countryInputRef}
-                currentGuess={currentGuess}
-                setCurrentGuess={setCurrentGuess}
-              />
               <button
-                className="rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
-                type="submit"
+                className="rounded font-bold border-2 p-1 uppercase bg-red-600 hover:bg-red-500 active:bg-red-700 text-white w-full"
+                onClick={handleGiveUp}
               >
-                <Twemoji
-                  text="🌍"
-                  options={{ className: "inline-block" }}
-                  className="flex items-center justify-center"
-                />{" "}
-                <span className="ml-1">{t("guess")}</span>
+                Give Up
               </button>
             </div>
-          </form>
+          </>
         )}
       </div>
     </div>

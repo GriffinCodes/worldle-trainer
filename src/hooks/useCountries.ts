@@ -5,16 +5,17 @@ import { Guess } from "../domain/guess";
 
 export function useCountries(): [
   {
-    country?: Country;
+    country: Country;
     guesses: Guess[];
     randomAngle: number;
     imageScale: number;
   },
-  (guess: Guess) => void
+  (guess: Guess) => void,
+  () => void
 ] {
   // Setup the initial state
   const [countries, setCountries] = useState<{
-    country?: Country;
+    country: Country;
     guesses: Guess[];
     randomAngle: number;
     imageScale: number;
@@ -33,26 +34,26 @@ export function useCountries(): [
       return;
     }
 
-    if (newGuess.distance === 0) {
-      const { randomAngle, imageScale } = getRandomAngle();
-      setCountries((prev) => ({
-        country: getCountry(),
-        guesses: [],
-        randomAngle: randomAngle,
-        imageScale: imageScale,
-      }));
-    } else {
-      const newGuesses = [...countries.guesses, newGuess];
-      setCountries((prev) => ({
-        country: prev.country,
-        guesses: newGuesses,
-        randomAngle: prev.randomAngle,
-        imageScale: prev.imageScale,
-      }));
-    }
+    const newGuesses = [...countries.guesses, newGuess];
+    setCountries((prev) => ({
+      country: prev.country,
+      guesses: newGuesses,
+      randomAngle: prev.randomAngle,
+      imageScale: prev.imageScale,
+    }));
   };
 
-  return [countries, addGuess];
+  const newCountry = () => {
+    const { randomAngle, imageScale } = getRandomAngle();
+    setCountries((prev) => ({
+      country: getCountry(),
+      guesses: [],
+      randomAngle: randomAngle,
+      imageScale: imageScale,
+    }));
+  };
+
+  return [countries, addGuess, newCountry];
 }
 
 function getRandomAngle() {
