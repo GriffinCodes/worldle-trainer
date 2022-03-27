@@ -2238,11 +2238,6 @@ export const areas: Record<string, number> = {
   XK: 10887,
 };
 
-export const smallCountryLimit = 5000;
-export const bigEnoughCountriesWithImage = countriesWithImage.filter(
-  (country) => areas[country.code] > smallCountryLimit
-);
-
 export function getCountryName(language: string, country: Country) {
   if (language === "fr") {
     return frenchCountryNames[country.code];

@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { SettingsData } from "../../hooks/useSettings";
 import { Panel } from "./Panel";
+import { ModifierMode } from "../../hooks/useMode";
 
 interface SettingsProps {
   isOpen: boolean;
   close: () => void;
   settingsData: SettingsData;
   updateSettings: (newSettings: Partial<SettingsData>) => void;
+  setRotationMode: (newRotationMode: SetStateAction<ModifierMode>) => void;
+  setHideImageMode: (newHideImageMode: SetStateAction<ModifierMode>) => void;
 }
 
 export function Settings({
@@ -15,6 +18,8 @@ export function Settings({
   close,
   settingsData,
   updateSettings,
+  setRotationMode,
+  setHideImageMode,
 }: SettingsProps) {
   const { t } = useTranslation();
   const [debugEnabled, setDebugEnabled] = useState(false);
@@ -71,16 +76,19 @@ export function Settings({
           <h3 className="text-lg font-bold">
             {t("settings.difficultyModifiers")}
           </h3>
-          <div className="text-sm italic text-gray-500">
-            {t("settings.startingNextDay")}
-          </div>
         </header>
         <div className="flex p-1">
           <input
             type="checkbox"
             id="setting-noImage"
             checked={settingsData.noImageMode}
-            onChange={(e) => updateSettings({ noImageMode: e.target.checked })}
+            onChange={(e) => {
+              updateSettings({ noImageMode: e.target.checked });
+              setHideImageMode({
+                enabled: e.target.checked,
+                tempDisabled: false,
+              });
+            }}
           />
           <label className="flex-1 ml-2" htmlFor="setting-noImage">
             {t("settings.noImageMode")}
@@ -91,7 +99,13 @@ export function Settings({
             type="checkbox"
             id="setting-rotationMode"
             checked={settingsData.rotationMode}
-            onChange={(e) => updateSettings({ rotationMode: e.target.checked })}
+            onChange={(e) => {
+              updateSettings({ rotationMode: e.target.checked });
+              setRotationMode({
+                enabled: e.target.checked,
+                tempDisabled: false,
+              });
+            }}
           />
           <label className="flex-1 ml-2" htmlFor="setting-rotationMode">
             {t("settings.rotationMode")}

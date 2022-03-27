@@ -19,7 +19,6 @@ const resources = {
         distanceUnit: "Unit of distance",
         theme: "Theme",
         difficultyModifiers: "Difficulty modifiers",
-        startingNextDay: "Starting the next day!",
         noImageMode: "Hide country image for more of a challenge.",
         rotationMode: "Randomly rotate country image.",
       },
@@ -53,7 +52,6 @@ const resources = {
       support: {
         UA: "Support the Ukrainian Red Cross",
       },
-      buyMeACoffee: "Buy me a ☕!",
     },
   },
   fr: {
@@ -72,7 +70,6 @@ const resources = {
         distanceUnit: "Unité de distance",
         theme: "Thème",
         difficultyModifiers: "Modificateurs de difficulté",
-        startingNextDay: "A partir du lendemain !",
         noImageMode: "Cache l'image du pays pour plus de challenge.",
         rotationMode: "Tourne l'image du pays de manière aléatoire.",
       },
@@ -107,7 +104,6 @@ const resources = {
       support: {
         UA: "Soutenez la Croix Rouge Ukrainienne",
       },
-      buyMeACoffee: "Offrez moi un ☕ !",
     },
   },
   es: {
@@ -126,7 +122,6 @@ const resources = {
         distanceUnit: "Unidad de distancia",
         theme: "Tema",
         difficultyModifiers: "Modificador de dificultad",
-        startingNextDay: "A partir de mañana!",
         noImageMode: "Oculte la imagen del país para un mayor desafío.",
         rotationMode: "Gira la imagen del país aleatoriamente.",
       },
@@ -139,7 +134,6 @@ const resources = {
         averageBestDistance: "Mejor distancia media",
         guessDistribution: "Distribución de aciertos:",
       },
-      buyMeACoffee: "Ofrézcame un ☕ !",
     },
   },
   eu: {
@@ -158,7 +152,6 @@ const resources = {
         distanceUnit: "Distantzia unitateak",
         theme: "Gaia",
         difficultyModifiers: "Zailtasun aldagaiak",
-        startingNextDay: "Aldaketak bihartik aurrera ikusgai!",
         noImageMode: "Ezkutatu herriaren irudia zailagoa egiteko.",
         rotationMode: "Errotatu ausaz herrialdearen irudia.",
       },
@@ -171,7 +164,6 @@ const resources = {
         averageBestDistance: "Batazbesteko distantzia onenea",
         guessDistribution: "Asmatze banaketa:",
       },
-      buyMeACoffee: "☕ bat eskaini iezaidazu !",
     },
   },
 };

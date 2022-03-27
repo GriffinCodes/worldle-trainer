@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef,
   useState,
+  SetStateAction,
 } from "react";
 import { toast } from "react-toastify";
 import {
@@ -18,44 +19,38 @@ import { Share } from "./Share";
 import { Guesses } from "./Guesses";
 import { useTranslation } from "react-i18next";
 import { SettingsData } from "../hooks/useSettings";
-import { useMode } from "../hooks/useMode";
-import { getDayString, useTodays } from "../hooks/useTodays";
+import { ModifierMode } from "../hooks/useMode";
+import { useCountries } from "../hooks/useCountries";
 import { Twemoji } from "@teuteuf/react-emoji-render";
-
-const MAX_TRY_COUNT = 6;
 
 interface GameProps {
   settingsData: SettingsData;
   updateSettings: (newSettings: Partial<SettingsData>) => void;
+  hideImageMode: ModifierMode;
+  setHideImageMode: (newHideImageMode: SetStateAction<ModifierMode>) => void;
+  rotationMode: ModifierMode;
+  setRotationMode: (newRotationMode: SetStateAction<ModifierMode>) => void;
 }
 
-export function Game({ settingsData, updateSettings }: GameProps) {
+export function Game({
+  settingsData,
+  updateSettings,
+  hideImageMode,
+  setHideImageMode,
+  rotationMode,
+  setRotationMode,
+}: GameProps) {
   const { t, i18n } = useTranslation();
-  const dayString = useMemo(
-    () => getDayString(settingsData.shiftDayCount),
-    [settingsData.shiftDayCount]
-  );
 
   const countryInputRef = useRef<HTMLInputElement>(null);
 
-  const [todays, addGuess, randomAngle, imageScale] = useTodays(dayString);
-  const { country, guesses } = todays;
+  const [todays, addGuess] = useCountries();
+  const { country, guesses, randomAngle, imageScale } = todays;
 
   const [currentGuess, setCurrentGuess] = useState("");
-  const [hideImageMode, setHideImageMode] = useMode(
-    "hideImageMode",
-    dayString,
-    settingsData.noImageMode
-  );
-  const [rotationMode, setRotationMode] = useMode(
-    "rotationMode",
-    dayString,
-    settingsData.rotationMode
-  );
 
-  const gameEnded =
-    guesses.length === MAX_TRY_COUNT ||
-    guesses[guesses.length - 1]?.distance === 0;
+  // TODO make this when you give up
+  const gameEnded = guesses[guesses.length - 1]?.distance === 0;
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -89,44 +84,43 @@ export function Game({ settingsData, updateSettings }: GameProps) {
       addGuess(newGuess);
       setCurrentGuess("");
 
-      if (newGuess.distance === 0) {
-        toast.success(t("welldone"), { delay: 2000 });
+      // Reset mode temp disabled
+      if (newGuess.distance == 0) {
+        setRotationMode((prev) => ({
+          enabled: prev.enabled,
+          tempDisabled: false,
+        }));
+        setHideImageMode((prev) => ({
+          enabled: prev.enabled,
+          tempDisabled: false,
+        }));
       }
     },
-    [addGuess, country, currentGuess, i18n.resolvedLanguage, t]
+    [
+      addGuess,
+      country,
+      currentGuess,
+      i18n.resolvedLanguage,
+      t,
+      setRotationMode,
+      setHideImageMode,
+    ]
   );
 
-  useEffect(() => {
-    let toastId: ReactText;
-    const { country, guesses } = todays;
-    if (
-      country &&
-      guesses.length === MAX_TRY_COUNT &&
-      guesses[guesses.length - 1].distance > 0
-    ) {
-      toastId = toast.info(
-        getCountryName(i18n.resolvedLanguage, country).toUpperCase(),
-        {
-          autoClose: false,
-          delay: 2000,
-        }
-      );
-    }
-
-    return () => {
-      if (toastId != null) {
-        toast.dismiss(toastId);
-      }
-    };
-  }, [todays, i18n.resolvedLanguage]);
+  // TODO add guess for give up that is the current country
 
   return (
     <div className="flex-grow flex flex-col mx-2">
-      {hideImageMode && !gameEnded && (
+      {hideImageMode.enabled && !hideImageMode.tempDisabled && !gameEnded && (
         <button
           className="border-2 uppercase my-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
           type="button"
-          onClick={() => setHideImageMode(false)}
+          onClick={() =>
+            setHideImageMode((prev) => ({
+              enabled: prev.enabled,
+              tempDisabled: true,
+            }))
+          }
         >
           <Twemoji
             text={t("showCountry")}
@@ -135,59 +129,46 @@ export function Game({ settingsData, updateSettings }: GameProps) {
         </button>
       )}
       <div className="flex my-1">
-        {settingsData.allowShiftingDay && settingsData.shiftDayCount > 0 && (
-          <button
-            type="button"
-            onClick={() =>
-              updateSettings({
-                shiftDayCount: Math.max(0, settingsData.shiftDayCount - 1),
-              })
-            }
-          >
-            <Twemoji text="↪️" className="text-xl" />
-          </button>
-        )}
         <img
           className={`pointer-events-none max-h-52 m-auto transition-transform duration-700 ease-in dark:invert ${
-            hideImageMode && !gameEnded ? "h-0" : "h-full"
+            hideImageMode.enabled && !hideImageMode.tempDisabled && !gameEnded
+              ? "h-0"
+              : "h-full"
           }`}
           alt="country to guess"
           src={`images/countries/${country?.code.toLowerCase()}/vector.svg`}
           style={
-            rotationMode && !gameEnded
+            rotationMode.enabled && !rotationMode.tempDisabled && !gameEnded
               ? {
                   transform: `rotate(${randomAngle}deg) scale(${imageScale})`,
                 }
               : {}
           }
         />
-        {settingsData.allowShiftingDay && settingsData.shiftDayCount < 7 && (
+      </div>
+      {rotationMode.enabled &&
+        !rotationMode.tempDisabled &&
+        (!hideImageMode.enabled ||
+          (hideImageMode.enabled && hideImageMode.tempDisabled)) &&
+        !gameEnded && (
           <button
+            className="border-2 uppercase mb-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
             type="button"
             onClick={() =>
-              updateSettings({
-                shiftDayCount: Math.min(7, settingsData.shiftDayCount + 1),
-              })
+              setRotationMode((prev) => ({
+                enabled: prev.enabled,
+                tempDisabled: true,
+              }))
             }
           >
-            <Twemoji text="↩️" className="text-xl" />
+            <Twemoji
+              text={t("cancelRotation")}
+              options={{ className: "inline-block" }}
+            />
           </button>
         )}
-      </div>
-      {rotationMode && !hideImageMode && !gameEnded && (
-        <button
-          className="border-2 uppercase mb-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
-          type="button"
-          onClick={() => setRotationMode(false)}
-        >
-          <Twemoji
-            text={t("cancelRotation")}
-            options={{ className: "inline-block" }}
-          />
-        </button>
-      )}
       <Guesses
-        rowCount={MAX_TRY_COUNT}
+        rowCount={guesses.length}
         guesses={guesses}
         settingsData={settingsData}
         countryInputRef={countryInputRef}
@@ -195,13 +176,6 @@ export function Game({ settingsData, updateSettings }: GameProps) {
       <div className="my-2">
         {gameEnded && country ? (
           <>
-            <Share
-              guesses={guesses}
-              dayString={dayString}
-              settingsData={settingsData}
-              hideImageMode={hideImageMode}
-              rotationMode={rotationMode}
-            />
             <a
               className="underline w-full text-center block mt-4"
               href={`https://www.google.com/maps?q=${getCountryName(
