@@ -31,14 +31,18 @@ export function removeCountry(country: string): boolean {
   const quiz = loadQuiz();
 
   const numLeft = quiz[country];
-  if (numLeft <= 1) {
-    delete quiz[country];
-  } else {
-    quiz[country] = numLeft - 1;
-  }
+  if (numLeft != null) {
+    if (numLeft <= 1) {
+      delete quiz[country];
+    } else {
+      quiz[country] = numLeft - 1;
+    }
 
-  localStorage.setItem("quiz", JSON.stringify(quiz));
-  return Object.keys(quiz).length == 0;
+    localStorage.setItem("quiz", JSON.stringify(quiz));
+    return Object.keys(quiz).length == 0;
+  } else {
+    return true;
+  }
 }
 
 export function addCountry(country: string) {
