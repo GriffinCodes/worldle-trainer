@@ -21,8 +21,10 @@ export function Infos({ isOpen, close }: InfosProps) {
         </div>
         <div>
           You have unlimited chances to guess a country. After guessing the
-          country on the first try 3 times in a row, it is removed from the list
-          of countries. The list can be reset and modified in the settings.
+          country on the first try, it is removed from the list of countries.
+          However, if you do not get it on the first try, the amount of times
+          you need to get it on the first try is incremented. The list can be
+          reset and modified in the settings.
         </div>
       </div>
       <div className="space-y-3 text-justify pb-3">

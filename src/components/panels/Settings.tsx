@@ -5,7 +5,7 @@ import { Panel } from "./Panel";
 import { ModifierMode } from "../../hooks/useMode";
 import { resetQuiz } from "../../domain/quiz";
 import { Twemoji } from "@teuteuf/react-emoji-render";
-import { countriesWithImage } from "../../domain/countries";
+import { CountryList } from "../../components/CountryList";
 
 interface SettingsProps {
   isOpen: boolean;
@@ -158,20 +158,7 @@ export function Settings({
             </div>
           </button>
         </header>
-        <div>
-          {displayCountryList ? (
-            [...countriesWithImage]
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((c, index) => (
-                <div key={index}>
-                  <input type="checkbox" />
-                  <label className="flex-1 ml-2"> {c.name} </label>
-                </div>
-              ))
-          ) : (
-            <div></div>
-          )}
-        </div>
+        <CountryList displayCountryList={displayCountryList} />
       </div>
     </Panel>
   );
