@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { countriesWithImage, Country } from "../domain/countries";
 import { Guess } from "../domain/guess";
+import { loadQuiz, resetQuiz, removeCountry } from "../domain/quiz";
 
 export function useCountries(): [
   {
@@ -66,7 +67,16 @@ function getRandomAngle() {
 }
 
 function getCountry() {
-  return countriesWithImage[
-    Math.floor(Math.random() * countriesWithImage.length)
-  ];
+  let quiz = loadQuiz();
+  if (Object.keys(quiz).length == 0) {
+    quiz = resetQuiz();
+  }
+
+  const remainingCountries = Object.keys(quiz);
+  const countryCode =
+    remainingCountries[Math.floor(Math.random() * remainingCountries.length)];
+  const country = countriesWithImage.find(
+    (country) => country.code == countryCode
+  );
+  return country ? country : countriesWithImage[0];
 }

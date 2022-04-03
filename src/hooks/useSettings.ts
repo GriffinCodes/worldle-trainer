@@ -5,8 +5,7 @@ export interface SettingsData {
   rotationMode: boolean;
   distanceUnit: "km" | "miles";
   theme: "light" | "dark";
-  shiftDayCount: number;
-  allowShiftingDay: boolean;
+  autoContinue: boolean;
 }
 
 const defaultSettingsData: SettingsData = {
@@ -16,8 +15,7 @@ const defaultSettingsData: SettingsData = {
   theme: window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light",
-  shiftDayCount: 0,
-  allowShiftingDay: false,
+  autoContinue: false,
 };
 
 function loadSettings(): SettingsData {

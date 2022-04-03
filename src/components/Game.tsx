@@ -13,6 +13,9 @@ import {
   getCountryName,
   sanitizeCountryName,
 } from "../domain/countries";
+import { Guess } from "../domain/guess";
+import { removeCountry, addCountry } from "../domain/quiz";
+import { Country } from "../domain/countries";
 import { CountryInput } from "./CountryInput";
 import * as geolib from "geolib";
 import { Share } from "./Share";
@@ -20,7 +23,6 @@ import { Guesses } from "./Guesses";
 import { useTranslation } from "react-i18next";
 import { SettingsData } from "../hooks/useSettings";
 import { ModifierMode } from "../hooks/useMode";
-import { useCountries } from "../hooks/useCountries";
 import { Twemoji } from "@teuteuf/react-emoji-render";
 
 interface GameProps {
@@ -30,6 +32,15 @@ interface GameProps {
   setHideImageMode: (newHideImageMode: SetStateAction<ModifierMode>) => void;
   rotationMode: ModifierMode;
   setRotationMode: (newRotationMode: SetStateAction<ModifierMode>) => void;
+  autoContinue: boolean;
+  countrys: {
+    country: Country;
+    guesses: Guess[];
+    randomAngle: number;
+    imageScale: number;
+  };
+  addGuess: (guess: Guess) => void;
+  newCountry: () => void;
 }
 
 export function Game({
@@ -39,13 +50,16 @@ export function Game({
   setHideImageMode,
   rotationMode,
   setRotationMode,
+  autoContinue,
+  countrys,
+  addGuess,
+  newCountry,
 }: GameProps) {
   const { t, i18n } = useTranslation();
 
   const countryInputRef = useRef<HTMLInputElement>(null);
 
-  const [todays, addGuess, newCountry] = useCountries();
-  const { country, guesses, randomAngle, imageScale } = todays;
+  const { country, guesses, randomAngle, imageScale } = countrys;
 
   const [currentGuess, setCurrentGuess] = useState("");
 
@@ -83,7 +97,7 @@ export function Game({
       addGuess(newGuess);
       setCurrentGuess("");
 
-      // Reset mode temp disabled
+      // If it's the winning guess
       if (newGuess.distance == 0) {
         setRotationMode((prev) => ({
           enabled: prev.enabled,
@@ -93,16 +107,32 @@ export function Game({
           enabled: prev.enabled,
           tempDisabled: false,
         }));
+
+        if (countrys.guesses.length == 0) {
+          const finished = removeCountry(country.code);
+          if (finished) {
+            toast.success("Quiz Complete!");
+          }
+        } else {
+          addCountry(country.code);
+        }
+
+        if (autoContinue) {
+          newCountry();
+        }
       }
     },
     [
       addGuess,
       country,
+      countrys,
       currentGuess,
       i18n.resolvedLanguage,
       t,
       setRotationMode,
       setHideImageMode,
+      autoContinue,
+      newCountry,
     ]
   );
 
@@ -121,8 +151,6 @@ export function Game({
     addGuess(correctGuess);
     setCurrentGuess("");
   }
-
-  // TODO add guess for give up that is the current country
 
   return (
     <div className="flex-grow flex flex-col mx-2">

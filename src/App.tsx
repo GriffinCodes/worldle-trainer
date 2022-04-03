@@ -6,6 +6,7 @@ import { Infos } from "./components/panels/Infos";
 import { useTranslation } from "react-i18next";
 import { Settings } from "./components/panels/Settings";
 import { useSettings } from "./hooks/useSettings";
+import { useCountries } from "./hooks/useCountries";
 import { Worldle } from "./components/Worldle";
 import { Twemoji } from "@teuteuf/react-emoji-render";
 
@@ -25,6 +26,8 @@ function App() {
     enabled: settingsData.rotationMode,
     tempDisabled: false,
   });
+  const [autoContinue, setAutoContinue] = useState(settingsData.autoContinue);
+  const [countrys, addGuess, newCountry] = useCountries();
 
   useEffect(() => {
     if (settingsData.theme === "dark") {
@@ -52,6 +55,8 @@ function App() {
         updateSettings={updateSettings}
         setHideImageMode={setHideImageMode}
         setRotationMode={setRotationMode}
+        setAutoContinue={setAutoContinue}
+        newCountry={newCountry}
       />
       <div className="flex justify-center flex-auto dark:bg-slate-900 dark:text-slate-50">
         <div className="w-full max-w-lg flex flex-col">
@@ -81,6 +86,10 @@ function App() {
             setHideImageMode={setHideImageMode}
             rotationMode={rotationMode}
             setRotationMode={setRotationMode}
+            autoContinue={autoContinue}
+            countrys={countrys}
+            addGuess={addGuess}
+            newCountry={newCountry}
           />
           <footer className="flex justify-center items-center text-sm mt-8 mb-1">
             <Twemoji

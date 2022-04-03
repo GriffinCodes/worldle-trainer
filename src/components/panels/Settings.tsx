@@ -3,6 +3,9 @@ import { useTranslation } from "react-i18next";
 import { SettingsData } from "../../hooks/useSettings";
 import { Panel } from "./Panel";
 import { ModifierMode } from "../../hooks/useMode";
+import { resetQuiz } from "../../domain/quiz";
+import { Twemoji } from "@teuteuf/react-emoji-render";
+import { countriesWithImage } from "../../domain/countries";
 
 interface SettingsProps {
   isOpen: boolean;
@@ -11,6 +14,8 @@ interface SettingsProps {
   updateSettings: (newSettings: Partial<SettingsData>) => void;
   setRotationMode: (newRotationMode: SetStateAction<ModifierMode>) => void;
   setHideImageMode: (newHideImageMode: SetStateAction<ModifierMode>) => void;
+  setAutoContinue: (newAutoContinue: SetStateAction<boolean>) => void;
+  newCountry: () => void;
 }
 
 export function Settings({
@@ -20,17 +25,15 @@ export function Settings({
   updateSettings,
   setRotationMode,
   setHideImageMode,
+  setAutoContinue,
+  newCountry,
 }: SettingsProps) {
   const { t } = useTranslation();
-  const [debugEnabled, setDebugEnabled] = useState(false);
+
+  const [displayCountryList, setDisplayCountryList] = useState(false);
 
   return (
-    <Panel
-      title={t("settings.title")}
-      isOpen={isOpen}
-      close={close}
-      debugAction={() => setDebugEnabled(true)}
-    >
+    <Panel title={t("settings.title")} isOpen={isOpen} close={close}>
       <div className="my-4">
         <div className="flex p-1">
           <select
@@ -68,6 +71,19 @@ export function Settings({
             htmlFor="setting-theme"
           >
             {t("settings.theme")}
+          </label>
+        </div>
+        <div className="flex p-1">
+          <input
+            type="checkbox"
+            checked={settingsData.autoContinue}
+            onChange={(e) => {
+              updateSettings({ autoContinue: e.target.checked });
+              setAutoContinue(e.target.checked);
+            }}
+          />
+          <label className="flex-1 ml-2" htmlFor="setting-skip">
+            Automatically continue to the next country
           </label>
         </div>
       </div>
@@ -112,51 +128,51 @@ export function Settings({
           </label>
         </div>
       </div>
-      {debugEnabled && (
-        <div className="my-4">
-          <header className="my-2">
-            <h3 className="text-lg font-bold">Debug Menu</h3>
-          </header>
-          <div className="flex p-1">
-            <input
-              type="checkbox"
-              id="setting-allowShiftingDay"
-              checked={settingsData.allowShiftingDay}
-              onChange={(e) =>
-                updateSettings({ allowShiftingDay: e.target.checked })
-              }
-            />
-            <label
-              className="flex-1 ml-2 flex items-center"
-              htmlFor="setting-allowShiftingDay"
-            >
-              Allow shifting day
-            </label>
-          </div>
-          <div className="flex p-1">
-            <select
-              id="setting-shiftDayCount"
-              className="h-8 dark:bg-slate-800"
-              value={settingsData.shiftDayCount}
-              onChange={(e) =>
-                updateSettings({ shiftDayCount: parseInt(e.target.value) })
-              }
-            >
-              {Array.from(Array(8).keys()).map((i) => (
-                <option key={i} value={i}>
-                  {i}
-                </option>
-              ))}
-            </select>
-            <label
-              className="flex-1 ml-2 flex items-center"
-              htmlFor="setting-shiftDayCount"
-            >
-              Shift day count
-            </label>
-          </div>
+      <div className="flex flex-col">
+        <button
+          className="rounded p-1 flex items-center justify-center border-2 uppercase my-0.5 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark-active-bg-slate-700"
+          onClick={() => {
+            resetQuiz();
+            newCountry();
+          }}
+        >
+          <Twemoji text="🔄" options={{ className: "inline-block" }} />
+          <span className="ml-1"> Reset quiz </span>
+        </button>
+      </div>
+      <div className="my-4">
+        <header className="my-2 flex border-2 px-2 rounded">
+          <button
+            className="flex-auto"
+            onClick={() => setDisplayCountryList(!displayCountryList)}
+          >
+            <div className="flex justify-between">
+              <span className="text-xl font-bold flex">
+                Select countries in the quiz
+              </span>
+              <Twemoji
+                text={displayCountryList ? "⬆️" : "⬇️"}
+                options={{ className: "text-xl inline-block" }}
+                className="flex items-center"
+              />
+            </div>
+          </button>
+        </header>
+        <div>
+          {displayCountryList ? (
+            [...countriesWithImage]
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((c, index) => (
+                <div key={index}>
+                  <input type="checkbox" />
+                  <label className="flex-1 ml-2"> {c.name} </label>
+                </div>
+              ))
+          ) : (
+            <div></div>
+          )}
         </div>
-      )}
+      </div>
     </Panel>
   );
 }
