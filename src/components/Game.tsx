@@ -18,7 +18,6 @@ import { removeCountry, addCountry } from "../domain/quiz";
 import { Country } from "../domain/countries";
 import { CountryInput } from "./CountryInput";
 import * as geolib from "geolib";
-import { Share } from "./Share";
 import { Guesses } from "./Guesses";
 import { useTranslation } from "react-i18next";
 import { SettingsData } from "../hooks/useSettings";
