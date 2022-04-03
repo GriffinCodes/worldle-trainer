@@ -6,14 +6,24 @@ export function loadQuiz(): { [country: string]: number } {
 }
 
 export function resetQuiz(): { [country: string]: number } {
-  const quiz: { [country: string]: number } = {};
-  countriesWithImage.forEach((c) => {
-    quiz[c.code] = 1;
-  });
-  //const quiz = { US: 3 };
+  const rawSettings = localStorage.getItem("settings");
+  if (rawSettings != null) {
+    const settings = JSON.parse(rawSettings);
 
-  localStorage.setItem("quiz", JSON.stringify(quiz));
-  return quiz;
+    const quiz: { [country: string]: number } = {};
+    Object.entries(settings.selectedCountries).forEach((entry) => {
+      const [c, val] = entry;
+      if (val) {
+        quiz[c] = 1;
+      }
+    });
+
+    localStorage.setItem("quiz", JSON.stringify(quiz));
+    return quiz;
+  } else {
+    localStorage.setItem("quiz", JSON.stringify({}));
+    return {};
+  }
 }
 
 // Return true if the quiz is finished
@@ -35,4 +45,15 @@ export function addCountry(country: string) {
   const quiz = loadQuiz();
   quiz[country]++;
   localStorage.setItem("quiz", JSON.stringify(quiz));
+}
+
+export function getAllSelectedCountries(state: boolean): {
+  [country: string]: boolean;
+} {
+  const countries: { [country: string]: boolean } = {};
+  countriesWithImage.forEach((c) => {
+    countries[c.code] = state;
+  });
+
+  return countries;
 }

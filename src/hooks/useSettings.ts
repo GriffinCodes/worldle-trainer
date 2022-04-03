@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { getAllSelectedCountries } from "../domain/quiz";
 
 export interface SettingsData {
   noImageMode: boolean;
@@ -6,6 +7,7 @@ export interface SettingsData {
   distanceUnit: "km" | "miles";
   theme: "light" | "dark";
   autoContinue: boolean;
+  selectedCountries: { [country: string]: boolean };
 }
 
 const defaultSettingsData: SettingsData = {
@@ -16,6 +18,7 @@ const defaultSettingsData: SettingsData = {
     ? "dark"
     : "light",
   autoContinue: false,
+  selectedCountries: getAllSelectedCountries(true),
 };
 
 function loadSettings(): SettingsData {

@@ -158,7 +158,11 @@ export function Settings({
             </div>
           </button>
         </header>
-        <CountryList displayCountryList={displayCountryList} />
+        <CountryList
+          displayCountryList={displayCountryList}
+          settingsData={settingsData}
+          updateSettings={updateSettings}
+        />
       </div>
     </Panel>
   );
