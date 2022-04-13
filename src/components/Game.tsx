@@ -156,7 +156,7 @@ export function Game({
     <div className="flex-grow flex flex-col mx-2">
       {hideImageMode.enabled && !hideImageMode.tempDisabled && !gameEnded && (
         <button
-          className="border-2 uppercase my-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
+          className="border-2 p-1 rounded uppercase my-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
           type="button"
           onClick={() =>
             setHideImageMode((prev) => ({
@@ -195,7 +195,7 @@ export function Game({
           (hideImageMode.enabled && hideImageMode.tempDisabled)) &&
         !gameEnded && (
           <button
-            className="border-2 uppercase mb-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
+            className="rounded p-1 border-2 uppercase mb-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
             type="button"
             onClick={() =>
               setRotationMode((prev) => ({
