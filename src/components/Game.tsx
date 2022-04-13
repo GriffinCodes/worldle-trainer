@@ -8,11 +8,7 @@ import React, {
   SetStateAction,
 } from "react";
 import { toast } from "react-toastify";
-import {
-  countries,
-  getCountryName,
-  sanitizeCountryName,
-} from "../domain/countries";
+import { getCountryName, sanitizeCountryName } from "../domain/countries";
 import { Guess } from "../domain/guess";
 import { removeCountry, addCountry } from "../domain/quiz";
 import { Country } from "../domain/countries";
@@ -23,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { SettingsData } from "../hooks/useSettings";
 import { ModifierMode } from "../hooks/useMode";
 import { Twemoji } from "@teuteuf/react-emoji-render";
+import { countries } from "../domain/countries.position";
 
 interface GameProps {
   settingsData: SettingsData;
