@@ -2,7 +2,8 @@ import { countriesWithImage } from "./countries";
 
 export function loadQuiz(): { [country: string]: number } {
   const curQuiz = localStorage.getItem("quiz");
-  return curQuiz != null ? JSON.parse(curQuiz) : {};
+  // TODO somehow make this load the default settings
+  return curQuiz != null ? JSON.parse(curQuiz) : getAllSelectedCountries(true);
 }
 
 export function resetQuiz(): { [country: string]: number } {
