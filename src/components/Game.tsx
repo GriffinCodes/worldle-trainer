@@ -9,13 +9,12 @@ import React, {
 } from "react";
 import { toast } from "react-toastify";
 import {
-  countries,
   getCountryName,
   sanitizeCountryName,
+  Country,
 } from "../domain/countries";
 import { Guess } from "../domain/guess";
 import { removeCountry, addCountry } from "../domain/quiz";
-import { Country } from "../domain/countries";
 import { CountryInput } from "./CountryInput";
 import * as geolib from "geolib";
 import { Guesses } from "./Guesses";
@@ -23,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import { SettingsData } from "../hooks/useSettings";
 import { ModifierMode } from "../hooks/useMode";
 import { Twemoji } from "@teuteuf/react-emoji-render";
+import { countries } from "../domain/countries.position";
 
 interface GameProps {
   settingsData: SettingsData;
@@ -59,6 +59,10 @@ export function Game({
   const countryInputRef = useRef<HTMLInputElement>(null);
 
   const { country, guesses, randomAngle, imageScale } = countrys;
+  const countryName = useMemo(
+    () => (country ? getCountryName(i18n.resolvedLanguage, country) : ""),
+    [country, i18n.resolvedLanguage]
+  );
 
   const [currentGuess, setCurrentGuess] = useState("");
 
@@ -155,7 +159,7 @@ export function Game({
     <div className="flex-grow flex flex-col mx-2">
       {hideImageMode.enabled && !hideImageMode.tempDisabled && !gameEnded && (
         <button
-          className="border-2 uppercase my-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
+          className="font-bold border-2 p-1 rounded uppercase my-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
           type="button"
           onClick={() =>
             setHideImageMode((prev) => ({
@@ -194,7 +198,7 @@ export function Game({
           (hideImageMode.enabled && hideImageMode.tempDisabled)) &&
         !gameEnded && (
           <button
-            className="border-2 uppercase mb-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
+            className="font-bold rounded p-1 border-2 uppercase mb-2 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
             type="button"
             onClick={() =>
               setRotationMode((prev) => ({
@@ -225,20 +229,32 @@ export function Game({
             >
               Next
             </button>
-            <a
-              className="underline w-full text-center block mt-4"
-              href={`https://www.google.com/maps?q=${getCountryName(
-                i18n.resolvedLanguage,
-                country
-              )}+${country.code.toUpperCase()}&hl=${i18n.resolvedLanguage}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Twemoji
-                text={t("showOnGoogleMaps")}
-                options={{ className: "inline-block" }}
-              />
-            </a>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <a
+                className="underline text-center block mt-4 whitespace-nowrap"
+                href={`https://www.google.com/maps?q=${countryName}+${country.code.toUpperCase()}&hl=${
+                  i18n.resolvedLanguage
+                }`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Twemoji
+                  text={t("showOnGoogleMaps")}
+                  options={{ className: "inline-block" }}
+                />
+              </a>
+              <a
+                className="underline text-center block mt-4 whitespace-nowrap"
+                href={`https://${i18n.resolvedLanguage}.wikipedia.org/wiki/${countryName}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Twemoji
+                  text={t("showOnWikipedia")}
+                  options={{ className: "inline-block" }}
+                />
+              </a>
+            </div>
           </>
         ) : (
           <>

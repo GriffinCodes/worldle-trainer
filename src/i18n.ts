@@ -2,13 +2,14 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
-const resources = {
+export const translations = {
   en: {
     translation: {
       placeholder: "Country, territory...",
       guess: "Guess",
       share: "Share",
       showOnGoogleMaps: "👀 on Google Maps",
+      showOnWikipedia: "📚 on Wikipedia",
       welldone: "Well done!",
       unknownCountry: "Unknown country!",
       copy: "Copied results to clipboard",
@@ -18,9 +19,11 @@ const resources = {
         title: "Settings",
         distanceUnit: "Unit of distance",
         theme: "Theme",
+        language: "Language",
         difficultyModifiers: "Difficulty modifiers",
         noImageMode: "Hide country image for more of a challenge.",
         rotationMode: "Randomly rotate country image.",
+        updateNotificationDisabled: "Disable update notifications.",
       },
       stats: {
         title: "Statistics",
@@ -60,6 +63,7 @@ const resources = {
       guess: "Deviner",
       share: "Partager",
       showOnGoogleMaps: "👀 sur Google Maps",
+      showOnWikipedia: "📚 sur Wikipedia",
       welldone: "Bien joué !",
       unknownCountry: "Pays inconnu !",
       copy: "Résultat copié !",
@@ -69,9 +73,12 @@ const resources = {
         title: "Paramètres",
         distanceUnit: "Unité de distance",
         theme: "Thème",
+        language: "Langage",
         difficultyModifiers: "Modificateurs de difficulté",
         noImageMode: "Cache l'image du pays pour plus de challenge.",
         rotationMode: "Tourne l'image du pays de manière aléatoire.",
+        updateNotificationDisabled:
+          "Désactive les notification de mise à jour.",
       },
       stats: {
         title: "Statistiques",
@@ -142,6 +149,7 @@ const resources = {
       guess: "Asmatu",
       share: "Elkarbanatu",
       showOnGoogleMaps: "👀 Google Maps-en",
+      showOnWikipedia: "📚 Megtekintés Wikipédián",
       welldone: "Ongi egina !",
       unknownCountry: "Estatu ezezaguna !",
       copy: "Emaitzak arbelean kopiatuta !",
@@ -166,13 +174,124 @@ const resources = {
       },
     },
   },
+  hu: {
+    translation: {
+      placeholder: "Ország, terület...",
+      guess: "Tippelés",
+      share: "Megosztás",
+      showOnGoogleMaps: "👀 Google Maps-en",
+      welldone: "Szép munka!",
+      unknownCountry: "Ismeretlen ország!",
+      countryDuplication: "Már tippelted ezt az országot!",
+      copy: "Eredmény kimásolva vágólapra",
+      showCountry: "🗺️ Mutasd a térképet!",
+      cancelRotation: "🌀 Elforgatás kikapcsolása",
+      settings: {
+        title: "Beállítások",
+        distanceUnit: "Távolság mértékegysége",
+        theme: "Téma",
+        difficultyModifiers: "Nehézségi beállítások",
+        startingNextDay: "A holnapi naptól!",
+        noImageMode: "Vaktérkép elrejtése.",
+        rotationMode: "Vaktérkép véletlenszerű elforgatása.",
+      },
+      stats: {
+        title: "Statisztikák",
+        played: "Játszott",
+        win: "Eltalált %",
+        currentStreak: "Jelenlegi Streak",
+        maxStreak: "Max Streak",
+        averageBestDistance: "Legközelebbi tippek átlaga",
+        guessDistribution: "Találatok eloszlása:",
+      },
+      install: {
+        title: "Worldle",
+        descritpionTitle: "App Letöltése:",
+        description:
+          "Add hozzá a Worldle a Kezdőképernyőhöz, hogy egyszerűbben játszhass!",
+        instructionTitle: "In",
+        instructionActionOk: "OK",
+        instructionActionCancel: "Mégse",
+        instructionActionInstall: "Telepítés",
+        instructionFirefoxAction1: "- nyisd meg a böngésző beállításokat ",
+        instructionFirefoxAction2: "- hozzáadás Kezdőképernyőhöz",
+        instructionFirefoxNewAction1: "- nyisd meg a böngésző beállításokat ",
+        instructionFirefoxNewAction2: '- válaszd a "Telepítés"-t',
+        instructionIdeviceAction1: "- nyisd meg a megosztás menüt ",
+        instructionIdeviceAction2:
+          '- válaszd a "Hozzáadás Főképernyőhöz" menüpontot',
+        instructionOperaAction1: "- nyisd meg a főmenüt ",
+        instructionOperaAction2: "- hozzáadás Főképernyőhöz",
+        instructionNotSupported: "Nem támogatott böngészőt használsz!",
+      },
+      support: {
+        UA: "Ukrán Vöröskereszt támogatása",
+      },
+      buyMeACoffee: "Vegyél nekem egy ☕-t!",
+    },
+  },
+  nl: {
+    translation: {
+      placeholder: "land, gebied...",
+      guess: "Raden",
+      share: "Delen",
+      showOnGoogleMaps: "👀 op Google Maps",
+      showOnWikipedia: "📚 op Wikipedia",
+      welldone: "Goed gedaan!",
+      unknownCountry: "Onbekend land!",
+      copy: "Resultaten zijn naar het klembord gekopiëerd",
+      showCountry: "🗺️ Toon kaart!",
+      cancelRotation: "🌀 Stop met draaien",
+      settings: {
+        title: "Instellingen",
+        distanceUnit: "Afstandseenheid",
+        theme: "Thema",
+        difficultyModifiers: "Moeilijkheidsgraad instellen",
+        startingNextDay: "Begint de volgende dag!",
+        noImageMode: "Verberg de landkaart voor een grotere uitdaging.",
+        rotationMode: "Draai de landkaart willekeurig.",
+      },
+      stats: {
+        title: "Statistieken",
+        played: "Gespeeld",
+        win: "Gewonnen %",
+        currentStreak: "Huidige Reeks",
+        maxStreak: "Grootste Reeks",
+        averageBestDistance: "Beste Afstanden Gemiddelde",
+        guessDistribution: "Kansverspreiding:",
+      },
+      install: {
+        title: "Worldle",
+        descritpionTitle: "Appinstallatie:",
+        description:
+          "Voeg Worldle toe aan je beginscherm om het makkelijk te spelen!",
+        instructionTitle: "Instructies:",
+        instructionActionOk: "OK",
+        instructionActionCancel: "Annuleer",
+        instructionActionInstall: "Installeer",
+        instructionFirefoxAction1: "- open browserinstellingen ",
+        instructionFirefoxAction2: "- voeg to aan beginscherm",
+        instructionFirefoxNewAction1: "- open browserinstellingen ",
+        instructionFirefoxNewAction2: '- selecteer "Installeren"',
+        instructionIdeviceAction1: "- op Safari, open het deelmenu ",
+        instructionIdeviceAction2: '- select "Zet in beginscherm"',
+        instructionOperaAction1: "- drop op de menuknop ",
+        instructionOperaAction2: "- voeg to aan beginscherm",
+        instructionNotSupported: "Niet ondersteund door deze browser.",
+      },
+      support: {
+        UA: "Support het Oekraïense Rode Kruis",
+      },
+      newVersion: "Nieuwe versie beschikbaar! <br/> Klik hier om te updaten!",
+    },
+  },
 };
 
 i18n
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
-    resources,
+    resources: translations,
     interpolation: {
       escapeValue: false,
     },
