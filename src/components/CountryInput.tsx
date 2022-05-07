@@ -22,6 +22,9 @@ export function CountryInput({
 
   return (
     <Autosuggest
+      theme={{ suggestionHighlighted: "font-bold" }}
+      shouldRenderSuggestions={() => true}
+      highlightFirstSuggestion
       suggestions={suggestions}
       onSuggestionsFetchRequested={({ value }) =>
         setSuggestions(
@@ -32,12 +35,13 @@ export function CountryInput({
                 sanitizeCountryName(value)
               )
             )
+            .sort()
         )
       }
       onSuggestionsClearRequested={() => setSuggestions([])}
       getSuggestionValue={(suggestion) => suggestion}
       renderSuggestion={(suggestion) => (
-        <div className="m-0.5 bg-white dark:bg-slate-800 dark:text-slate-100 p-1">
+        <div className="m-0.5 bg-white dark:bg-slate-800 dark:text-slate-100 p-1 cursor-pointer">
           {suggestion}
         </div>
       )}
@@ -50,7 +54,6 @@ export function CountryInput({
         placeholder: t("placeholder"),
         value: currentGuess,
         onChange: (_e, { newValue }) => setCurrentGuess(newValue),
-        autoFocus: true,
       }}
       renderSuggestionsContainer={({ containerProps, children }) => (
         <div

@@ -2,7 +2,7 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
-const resources = {
+export const translations = {
   en: {
     translation: {
       placeholder: "Country, territory...",
@@ -19,9 +19,11 @@ const resources = {
         title: "Settings",
         distanceUnit: "Unit of distance",
         theme: "Theme",
+        language: "Language",
         difficultyModifiers: "Difficulty modifiers",
         noImageMode: "Hide country image for more of a challenge.",
         rotationMode: "Randomly rotate country image.",
+        updateNotificationDisabled: "Disable update notifications.",
       },
       stats: {
         title: "Statistics",
@@ -71,9 +73,12 @@ const resources = {
         title: "Paramètres",
         distanceUnit: "Unité de distance",
         theme: "Thème",
+        language: "Langage",
         difficultyModifiers: "Modificateurs de difficulté",
         noImageMode: "Cache l'image du pays pour plus de challenge.",
         rotationMode: "Tourne l'image du pays de manière aléatoire.",
+        updateNotificationDisabled:
+          "Désactive les notification de mise à jour.",
       },
       stats: {
         title: "Statistiques",
@@ -221,13 +226,68 @@ const resources = {
       },
     },
   },
+  nl: {
+    translation: {
+      placeholder: "land, gebied...",
+      guess: "Raden",
+      share: "Delen",
+      showOnGoogleMaps: "👀 op Google Maps",
+      showOnWikipedia: "📚 op Wikipedia",
+      welldone: "Goed gedaan!",
+      unknownCountry: "Onbekend land!",
+      copy: "Resultaten zijn naar het klembord gekopiëerd",
+      showCountry: "🗺️ Toon kaart!",
+      cancelRotation: "🌀 Stop met draaien",
+      settings: {
+        title: "Instellingen",
+        distanceUnit: "Afstandseenheid",
+        theme: "Thema",
+        difficultyModifiers: "Moeilijkheidsgraad instellen",
+        startingNextDay: "Begint de volgende dag!",
+        noImageMode: "Verberg de landkaart voor een grotere uitdaging.",
+        rotationMode: "Draai de landkaart willekeurig.",
+      },
+      stats: {
+        title: "Statistieken",
+        played: "Gespeeld",
+        win: "Gewonnen %",
+        currentStreak: "Huidige Reeks",
+        maxStreak: "Grootste Reeks",
+        averageBestDistance: "Beste Afstanden Gemiddelde",
+        guessDistribution: "Kansverspreiding:",
+      },
+      install: {
+        title: "Worldle",
+        descritpionTitle: "Appinstallatie:",
+        description:
+          "Voeg Worldle toe aan je beginscherm om het makkelijk te spelen!",
+        instructionTitle: "Instructies:",
+        instructionActionOk: "OK",
+        instructionActionCancel: "Annuleer",
+        instructionActionInstall: "Installeer",
+        instructionFirefoxAction1: "- open browserinstellingen ",
+        instructionFirefoxAction2: "- voeg to aan beginscherm",
+        instructionFirefoxNewAction1: "- open browserinstellingen ",
+        instructionFirefoxNewAction2: '- selecteer "Installeren"',
+        instructionIdeviceAction1: "- op Safari, open het deelmenu ",
+        instructionIdeviceAction2: '- select "Zet in beginscherm"',
+        instructionOperaAction1: "- drop op de menuknop ",
+        instructionOperaAction2: "- voeg to aan beginscherm",
+        instructionNotSupported: "Niet ondersteund door deze browser.",
+      },
+      support: {
+        UA: "Support het Oekraïense Rode Kruis",
+      },
+      newVersion: "Nieuwe versie beschikbaar! <br/> Klik hier om te updaten!",
+    },
+  },
 };
 
 i18n
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
-    resources,
+    resources: translations,
     interpolation: {
       escapeValue: false,
     },

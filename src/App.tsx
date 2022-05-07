@@ -10,7 +10,7 @@ import { useCountries } from "./hooks/useCountries";
 import { Worldle } from "./components/Worldle";
 import { Twemoji } from "@teuteuf/react-emoji-render";
 
-function App() {
+export default function App() {
   const { t, i18n } = useTranslation();
 
   const [infoOpen, setInfoOpen] = useState(false);
@@ -46,6 +46,8 @@ function App() {
         theme={settingsData.theme}
         autoClose={2000}
         bodyClassName="font-bold text-center"
+        toastClassName="flex justify-center m-2 max-w-full"
+        style={{ width: 500, maxWidth: "100%" }}
       />
       <Infos isOpen={infoOpen} close={() => setInfoOpen(false)} />
       <Settings
@@ -91,7 +93,7 @@ function App() {
             addGuess={addGuess}
             newCountry={newCountry}
           />
-          <footer className="flex justify-center items-center text-sm mt-8 mb-1">
+          <footer className="flex justify-center items-center mt-8 mb-4">
             <Twemoji
               text="❤️"
               className="flex items-center justify-center mr-1"
@@ -116,5 +118,3 @@ function App() {
     </>
   );
 }
-
-export default App;
