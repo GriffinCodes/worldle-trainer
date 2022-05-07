@@ -9,12 +9,17 @@ interface CountryInputProps {
   inputRef: React.RefObject<HTMLInputElement>;
   currentGuess: string;
   setCurrentGuess: (guess: string) => void;
+  handleSuggestionSelected: (
+    e: React.FormEvent<HTMLElement>,
+    newValue: string
+  ) => void;
 }
 
 export function CountryInput({
   inputRef,
   currentGuess,
   setCurrentGuess,
+  handleSuggestionSelected,
 }: CountryInputProps) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
@@ -26,6 +31,9 @@ export function CountryInput({
       shouldRenderSuggestions={() => true}
       highlightFirstSuggestion
       suggestions={suggestions}
+      onSuggestionSelected={(e, { suggestionValue }) =>
+        handleSuggestionSelected(e, suggestionValue)
+      }
       onSuggestionsFetchRequested={({ value }) =>
         setSuggestions(
           countries

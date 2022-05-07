@@ -69,11 +69,10 @@ export function Game({
   const gameEnded = guesses[guesses.length - 1]?.distance === 0;
 
   const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
+    (currentGuess) => {
       if (country == null) {
         return;
       }
-      e.preventDefault();
       const guessedCountry = countries.find(
         (country) =>
           sanitizeCountryName(
@@ -129,7 +128,6 @@ export function Game({
       addGuess,
       country,
       countrys,
-      currentGuess,
       i18n.resolvedLanguage,
       t,
       setRotationMode,
@@ -153,6 +151,24 @@ export function Game({
 
     addGuess(correctGuess);
     setCurrentGuess("");
+  }
+
+  function handleSuggestionSelected(
+    e: React.FormEvent<HTMLElement>,
+    suggestionValue: string
+  ) {
+    let country = suggestionValue;
+    if (e.type == "keydown") {
+      const realCountry = countries.find(
+        (country) =>
+          sanitizeCountryName(
+            getCountryName(i18n.resolvedLanguage, country)
+          ) === sanitizeCountryName(currentGuess)
+      );
+      country = realCountry ? realCountry.name : country;
+    }
+
+    handleSubmit(country);
   }
 
   return (
@@ -258,12 +274,18 @@ export function Game({
           </>
         ) : (
           <>
-            <form onSubmit={handleSubmit}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit(currentGuess);
+              }}
+            >
               <div className="flex flex-col">
                 <CountryInput
                   inputRef={countryInputRef}
                   currentGuess={currentGuess}
                   setCurrentGuess={setCurrentGuess}
+                  handleSuggestionSelected={handleSuggestionSelected}
                 />
                 <button
                   className="rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
