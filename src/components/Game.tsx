@@ -153,24 +153,6 @@ export function Game({
     setCurrentGuess("");
   }
 
-  function handleSuggestionSelected(
-    e: React.FormEvent<HTMLElement>,
-    suggestionValue: string
-  ) {
-    let country = suggestionValue;
-    if (e.type == "keydown") {
-      const realCountry = countries.find(
-        (country) =>
-          sanitizeCountryName(
-            getCountryName(i18n.resolvedLanguage, country)
-          ) === sanitizeCountryName(currentGuess)
-      );
-      country = realCountry ? realCountry.name : country;
-    }
-
-    handleSubmit(country);
-  }
-
   return (
     <div className="flex-grow flex flex-col mx-2">
       {hideImageMode.enabled && !hideImageMode.tempDisabled && !gameEnded && (
@@ -285,7 +267,7 @@ export function Game({
                   inputRef={countryInputRef}
                   currentGuess={currentGuess}
                   setCurrentGuess={setCurrentGuess}
-                  handleSuggestionSelected={handleSuggestionSelected}
+                  handleSubmit={handleSubmit}
                 />
                 <button
                   className="rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-slate-800 dark:active:bg-slate-700"
