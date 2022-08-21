@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { getAllSelectedCountries } from "../domain/quiz";
 
 export interface SettingsData {
+  showScale: boolean;
   noImageMode: boolean;
   rotationMode: boolean;
   distanceUnit: "km" | "miles";
@@ -11,6 +12,7 @@ export interface SettingsData {
 }
 
 const defaultSettingsData: SettingsData = {
+  showScale: false,
   noImageMode: false,
   rotationMode: false,
   distanceUnit: "km",
