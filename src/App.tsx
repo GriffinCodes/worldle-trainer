@@ -134,7 +134,7 @@ export default function App() {
               <div className="w-max">
                 <Twemoji
                   text="Buy @teuteuf a ☕!"
-                  className="inline-block"
+                  className="flex"
                 />
               </div>
             </a>
