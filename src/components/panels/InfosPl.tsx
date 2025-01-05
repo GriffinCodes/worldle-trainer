@@ -4,7 +4,7 @@ import React from "react";
 import { Worldle } from "../Worldle";
 import { formatDistance } from "../../domain/geography";
 import { SettingsData } from "../../hooks/useSettings";
-import { Twemoji } from "@teuteuf/react-emoji-render";
+import Twemoji from "./TwemojiUtils";
 
 interface InfosProps {
   isOpen: boolean;
@@ -84,7 +84,7 @@ export function InfosPl({ isOpen, close, settingsData }: InfosProps) {
           <div className="my-2">
             Kolejny typ, <span className="uppercase font-bold">Liban</span>,
             jest krajem docelowym! Gratulacje!{" "}
-            <Twemoji text="🎉" options={{ className: "inline-block" }} />
+            <Twemoji text="🎉" className="inline-block" />
           </div>
         </div>
       </div>
@@ -160,7 +160,7 @@ export function InfosPl({ isOpen, close, settingsData }: InfosProps) {
           >
             <Twemoji
               text="Postaw mi kawę! ☕"
-              options={{ className: "inline-block" }}
+              className="inline-block"
             />
           </a>
         </div>

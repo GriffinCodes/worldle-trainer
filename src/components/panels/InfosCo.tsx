@@ -4,7 +4,7 @@ import React from "react";
 import { Worldle } from "../Worldle";
 import { formatDistance } from "../../domain/geography";
 import { SettingsData } from "../../hooks/useSettings";
-import { Twemoji } from "@teuteuf/react-emoji-render";
+import Twemoji from "./TwemojiUtils";
 
 interface InfosProps {
   isOpen: boolean;
@@ -85,7 +85,7 @@ export function InfosCo({ isOpen, close, settingsData }: InfosProps) {
           <div className="my-2">
             L’ultimu colpu, <span className="uppercase font-bold">Libanu</span>,
             hè u paese à induvinà ! Bellu colpu !{" "}
-            <Twemoji text="🎉" options={{ className: "inline-block" }} />
+            <Twemoji text="🎉" className="inline-block" />
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@ export function InfosCo({ isOpen, close, settingsData }: InfosProps) {
           >
             <Twemoji
               text="Rigalatemi d’un caffè ! ☕"
-              options={{ className: "inline-block" }}
+              className="inline-block"
             />
           </a>
         </div>

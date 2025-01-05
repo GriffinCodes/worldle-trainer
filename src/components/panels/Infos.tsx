@@ -1,7 +1,7 @@
 import { Panel } from "./Panel";
 import React from "react";
 import { Worldle } from "../Worldle";
-import { Twemoji } from "@teuteuf/react-emoji-render";
+import Twemoji from "./TwemojiUtils";
 
 interface InfosProps {
   isOpen: boolean;
@@ -81,7 +81,7 @@ export function Infos({ isOpen, close }: InfosProps) {
           >
             <Twemoji
               text="Buy @teuteuf a coffee! ☕"
-              options={{ className: "inline-block" }}
+              className="flex"
             />
           </a>
         </div>

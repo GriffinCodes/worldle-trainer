@@ -5,8 +5,8 @@ import { translations } from "../../i18n";
 import { Panel } from "./Panel";
 import { ModifierMode } from "../../hooks/useMode";
 import { resetQuiz } from "../../domain/quiz";
-import { Twemoji } from "@teuteuf/react-emoji-render";
 import { CountryList } from "../../components/CountryList";
+import Twemoji from "./TwemojiUtils";
 
 interface SettingsProps {
   isOpen: boolean;
@@ -168,7 +168,7 @@ export function Settings({
             newCountry();
           }}
         >
-          <Twemoji text="🔄" options={{ className: "inline-block" }} />
+          <Twemoji text="🔄" className="inline-block" />
           <span className="ml-1"> Reset quiz </span>
         </button>
       </div>
@@ -184,8 +184,7 @@ export function Settings({
               </span>
               <Twemoji
                 text={displayCountryList ? "⬆️" : "⬇️"}
-                options={{ className: "text-xl inline-block" }}
-                className="flex items-center"
+                className="text-xl flex items-center"
               />
             </div>
           </button>

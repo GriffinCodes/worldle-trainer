@@ -11,8 +11,8 @@ import { Settings } from "./components/panels/Settings";
 import { useSettings } from "./hooks/useSettings";
 import { useCountries } from "./hooks/useCountries";
 import { Worldle } from "./components/Worldle";
-import { Twemoji } from "@teuteuf/react-emoji-render";
 import { InfosJa } from "./components/panels/InfosJa";
+import Twemoji from "./components/panels/TwemojiUtils";
 
 const supportLink: Record<string, string> = {
   UA: "https://donate.redcrossredcrescent.org/ua/donate/~my-donation?_cv=1",
@@ -134,7 +134,7 @@ export default function App() {
               <div className="w-max">
                 <Twemoji
                   text="Buy @teuteuf a ☕!"
-                  options={{ className: "inline-block" }}
+                  className="inline-block"
                 />
               </div>
             </a>

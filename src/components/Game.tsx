@@ -21,8 +21,8 @@ import { Guesses } from "./Guesses";
 import { useTranslation } from "react-i18next";
 import { SettingsData } from "../hooks/useSettings";
 import { ModifierMode } from "../hooks/useMode";
-import { Twemoji } from "@teuteuf/react-emoji-render";
 import { countries } from "../domain/countries.position";
+import Twemoji from "./panels/TwemojiUtils";
 
 const ENABLE_TWITCH_LINK = false;
 const MAX_TRY_COUNT = 6;
@@ -171,7 +171,7 @@ export function Game({
         >
           <Twemoji
             text={t("showCountry")}
-            options={{ className: "inline-block" }}
+            className="inline-block"
           />
         </button>
       )}
@@ -210,7 +210,7 @@ export function Game({
           >
             <Twemoji
               text={t("cancelRotation")}
-              options={{ className: "inline-block" }}
+              className="inline-block"
             />
           </button>
         )}
@@ -242,7 +242,7 @@ export function Game({
               >
                 <Twemoji
                   text={t("showOnGoogleMaps")}
-                  options={{ className: "inline-block" }}
+                  className="inline-block"
                 />
               </a>
               <a
@@ -253,7 +253,7 @@ export function Game({
               >
                 <Twemoji
                   text={t("showOnWikipedia")}
-                  options={{ className: "inline-block" }}
+                  className="inline-block"
                 />
               </a>
             </div>
@@ -279,7 +279,6 @@ export function Game({
                 >
                   <Twemoji
                     text="🌍"
-                    options={{ className: "inline-block" }}
                     className="flex items-center justify-center"
                   />{" "}
                   <span className="ml-1">{t("guess")}</span>

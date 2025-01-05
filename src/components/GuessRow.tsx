@@ -8,7 +8,6 @@ import { Guess } from "../domain/guess";
 import React, { useCallback, useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { SettingsData } from "../hooks/useSettings";
-import { Twemoji } from "@teuteuf/react-emoji-render";
 import {
   Country,
   getCountryName,
@@ -17,6 +16,7 @@ import {
 import { areas } from "../domain/countries.area";
 import { countries } from "../domain/countries.position";
 import { useTranslation } from "react-i18next";
+import Twemoji from "./panels/TwemojiUtils";
 
 const SQUARE_ANIMATION_LENGTH = 250;
 type AnimationState = "NOT_STARTED" | "RUNNING" | "ENDED";

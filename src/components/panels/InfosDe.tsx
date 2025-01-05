@@ -4,7 +4,7 @@ import React from "react";
 import { Worldle } from "../Worldle";
 import { formatDistance } from "../../domain/geography";
 import { SettingsData } from "../../hooks/useSettings";
-import { Twemoji } from "@teuteuf/react-emoji-render";
+import Twemoji from "./TwemojiUtils";
 
 interface InfosProps {
   isOpen: boolean;
@@ -81,7 +81,7 @@ export function InfosDe({ isOpen, close, settingsData }: InfosProps) {
             Nächster Versuch,{" "}
             <span className="uppercase font-bold">Libanon</span>, dieses Land
             wurde gesucht! Glückwunsch!{" "}
-            <Twemoji text="🎉" options={{ className: "inline-block" }} />
+            <Twemoji text="🎉" className="inline-block" />
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@ export function InfosDe({ isOpen, close, settingsData }: InfosProps) {
           >
             <Twemoji
               text="Kauf mir einen Kaffee! ☕"
-              options={{ className: "inline-block" }}
+              className="inline-block"
             />
           </a>
         </div>
